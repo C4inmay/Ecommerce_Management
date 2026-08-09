@@ -1,6 +1,6 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import ThemeContext from '../context/themeContext.js'
 
-const ThemeContext = createContext(null)
 const THEME_STORAGE_KEY = 'ecom-control-theme'
 
 function getInitialTheme() {
@@ -9,7 +9,7 @@ function getInitialTheme() {
   return window.localStorage.getItem(THEME_STORAGE_KEY) || 'light'
 }
 
-export function ThemeProvider({ children }) {
+function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(getInitialTheme)
 
   useEffect(() => {
@@ -33,12 +33,4 @@ export function ThemeProvider({ children }) {
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
 }
 
-export function useTheme() {
-  const context = useContext(ThemeContext)
-
-  if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider')
-  }
-
-  return context
-}
+export default ThemeProvider
